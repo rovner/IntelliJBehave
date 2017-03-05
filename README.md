@@ -1,13 +1,19 @@
-JBehave Support for IntelliJ IDEA
-=================================
+JBehave Syntax Support for IntelliJ IDEA
+=========================================
 
 IntelliJ IDEA Plugin for JBehave
 
 This plugin provides some support for JBehave.
-It is a fork of IntelliJBehave, originally created by Aman Kumar.
+
+It is a fork of JBehaveSupport, adapted and updated by Bert Van Vlerken and Victor Rosenberg.
+JBehaveSupport in turn is a fork of IntelliJBehave, originally created by Aman Kumar.
+
+This plugin also incorporates changes from JBehaveSupport fork by RodrigoQuesadaDev to support Kotlin 1.0.4.
 
 See https://github.com/kumaraman21/IntelliJBehave/wiki
-    
+
+Latest changes in this plugin are to support IntelliJ IDEA 2016.1 and up.
+
 Most of the original code has been retained, but several improvements have been incorporated by various contributors:
 * https://github.com/jarosite
 * https://github.com/Arnauld

@@ -26,7 +26,7 @@ test-output/
 out/
 
 # Exported plugin for deployment
-IntelliJBehave.zip
+JBehaveSyntaxSupport.zip
 
 # other scm
 .svn
@@ -38,7 +38,7 @@ IntelliJBehave.zip
 #  ^\.pc/
 
 # IntelliJ
-*.iml
+# *.iml
 *.ipr
 *.iws
 .idea

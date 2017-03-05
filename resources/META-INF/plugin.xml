@@ -13,18 +13,28 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<idea-plugin version="2" url="https://github.com/witspirit/IntelliJBehave">
-    <name>JBehave Support</name>
-    <id>jbehave-support-plugin</id>
+<idea-plugin version="2" url="https://github.com/stefanschenk/IntelliJBehave">
+    <name>JBehave Syntax Support</name>
+    <id>jbehave-syntax-support</id>
+    <version>1.6</version>
+    <vendor url="https://github.com/stefanschenk" email="swj@schenkweb.nl">Stefan Schenk</vendor>
     <description><![CDATA[
     <h1>IntelliJ IDEA Plugin for JBehave</h1>
     <p>
     This plugin provides some support for JBehave. <br/>
-    It is a fork of IntelliJBehave, originally created by Aman Kumar. <br/>
+    It is a fork of Jbehave Support, adapted and updated by Bert Van Vlerken and Victor Rosenberg.<br/>
+    See <a href="https://github.com/witspirit/IntelliJBehave">https://github.com/witspirit/IntelliJBehave</a><br/>
+    JBehaveSupport in turn is a fork of IntelliJBehave, originally created by Aman Kumar. <br/>
     See <a href="https://github.com/kumaraman21/IntelliJBehave/wiki">https://github.com/kumaraman21/IntelliJBehave/wiki</a>
     <br/>
 
-    Most of the original code has been retained, but several improvements have been incorporated by various contributors:
+    JBehave Syntax Support will aim to support IntelliJ IDEA 2016.1 and up and try to improve on features<br/>
+    which come from using JBehave on a daily basis.
+
+    Incorporated changes from fork <a href="https://github.com/hobbitProg/IntelliJBehave">https://github.com/hobbitProg/IntelliJBehave</a><br/>
+    to support Kotlin 1.0.4.
+
+    JBehave Support had retained most of the original code, but had several improvements been incorporated by various contributors:
     <ul>
         <li><a href="https://github.com/jarosite">https://github.com/jarosite</a></li>
         <li><a href="https://github.com/Arnauld">https://github.com/Arnauld</a></li>
@@ -65,6 +75,13 @@
 
     <h2>Release notes:</h2>
     <p>
+        New in version 1.6:
+    </p>
+    <ul>
+        <li>Java 1.8</li>
+        <li>Ready for IntelliJ 2016 and up (use JbehaveSupport for 2015 and earlier)</li>
+    </ul>
+    <p>
         New in version 1.5:
     </p>
     <ul>
@@ -73,10 +90,8 @@
         <li>JBehave icon has been updated</li>
     </ul>
   ]]></description>
-    <version>1.52</version>
-    <vendor url="https://github.com/witspirit" email="witspirit@gmail.com">Bert Van Vlerken, Victor Rosenberg</vendor>
 
-    <idea-version since-build="133.0"/>
+    <idea-version since-build="145.0"/>
 
     <depends>com.intellij.modules.java</depends>
     <depends optional="true">org.jetbrains.kotlin</depends>
