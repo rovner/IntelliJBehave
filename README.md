@@ -12,12 +12,14 @@ This plugin also incorporates changes from JBehaveSupport fork by RodrigoQuesada
 
 See https://github.com/kumaraman21/IntelliJBehave/wiki
 
-Latest changes in this plugin are to support IntelliJ IDEA 2016.1 and up.
-
 Most of the original code has been retained, but several improvements have been incorporated by various contributors:
 * https://github.com/jarosite
 * https://github.com/Arnauld
 * https://github.com/harley84
+
+Latest
+------
+Latest changes in this plugin are to support IntelliJ IDEA 2016.1 and up.
     
 Features
 --------
