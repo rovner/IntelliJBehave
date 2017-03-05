@@ -73,4 +73,10 @@ public class JBehaveStep extends ASTWrapperPsiElement {
         String stepPrefix = getActualStepPrefix();
         return stepPrefix != null ? stepPrefix.length() + 1 : 0;
     }
+
+    public int getTextOffset() {
+        int offset = getNode().getStartOffset() + getStepTextOffset();
+
+        return offset;
+    }
 }

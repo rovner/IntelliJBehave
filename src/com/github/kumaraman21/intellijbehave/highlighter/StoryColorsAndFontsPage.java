@@ -34,6 +34,7 @@ public class StoryColorsAndFontsPage implements ColorSettingsPage {
 
     private static final AttributesDescriptor[] ATTRS = new AttributesDescriptor[]{
             new AttributesDescriptor("Story description", StorySyntaxHighlighter.STORY_DESCRIPTION),//
+            new AttributesDescriptor("GivenStories keyword", StorySyntaxHighlighter.GIVENSTORIES_TYPE),//
             new AttributesDescriptor("Scenario keyword", StorySyntaxHighlighter.SCENARIO_TYPE),//
             new AttributesDescriptor("Scenario text", StorySyntaxHighlighter.SCENARIO_TEXT),//
             new AttributesDescriptor("Step keyword", StorySyntaxHighlighter.STEP_TYPE),//
@@ -64,6 +65,8 @@ public class StoryColorsAndFontsPage implements ColorSettingsPage {
                 "In order to play a game\n" + //
                 "As a player\n" + //
                 "I want to be able to create and manage my account\n" + //
+                "\n" + //
+                "GivenStories:\t/stories/open_the_browser.story\n" + //
                 "\n" + //
                 "Scenario: An unknown user cannot be logged\n" + //
                 "\n" + //

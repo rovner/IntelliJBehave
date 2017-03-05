@@ -18,7 +18,6 @@ package com.github.kumaraman21.intellijbehave.highlighter;
 import com.intellij.lexer.Lexer;
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.editor.HighlighterColors;
-import com.intellij.openapi.editor.colors.CodeInsightColors;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
 import com.intellij.psi.tree.IElementType;
@@ -49,6 +48,8 @@ public class StorySyntaxHighlighter extends SyntaxHighlighterBase {
     @NonNls
     public static final String STORY_DESCRIPTION_ID = "JBEHAVE.STORY_DESCRIPTION";
     @NonNls
+    public static final String GIVENSTORIES_TYPE_ID = "JBEHAVE.GIVENSTORIES_TYPE";
+    @NonNls
     public static final String SCENARIO_TYPE_ID = "JBEHAVE.SCENARIO_TYPE";
     @NonNls
     public static final String SCENARIO_TEXT_ID = "JBEHAVE.SCENARIO_TEXT";
@@ -74,6 +75,7 @@ public class StorySyntaxHighlighter extends SyntaxHighlighterBase {
     // Registering TextAttributes
     static {
         createKey(STORY_DESCRIPTION_ID, DefaultLanguageHighlighterColors.NUMBER);
+        createKey(GIVENSTORIES_TYPE_ID, DefaultLanguageHighlighterColors.KEYWORD);
         createKey(SCENARIO_TYPE_ID, DefaultLanguageHighlighterColors.STATIC_FIELD);
         createKey(SCENARIO_TEXT_ID, DefaultLanguageHighlighterColors.STATIC_FIELD);
         createKey(STEP_TYPE_ID, DefaultLanguageHighlighterColors.KEYWORD);
@@ -88,6 +90,7 @@ public class StorySyntaxHighlighter extends SyntaxHighlighterBase {
     }
 
     public static TextAttributesKey STORY_DESCRIPTION = createTextAttributesKey(STORY_DESCRIPTION_ID);
+    public static TextAttributesKey GIVENSTORIES_TYPE = createTextAttributesKey(GIVENSTORIES_TYPE_ID);
     public static TextAttributesKey SCENARIO_TYPE = createTextAttributesKey(SCENARIO_TYPE_ID);
     public static TextAttributesKey SCENARIO_TEXT = createTextAttributesKey(SCENARIO_TEXT_ID);
     public static TextAttributesKey STEP_TYPE = createTextAttributesKey(STEP_TYPE_ID);
@@ -104,6 +107,7 @@ public class StorySyntaxHighlighter extends SyntaxHighlighterBase {
         ATTRIBUTES.put(StoryTokenType.STORY_DESCRIPTION, STORY_DESCRIPTION);
         ATTRIBUTES.put(StoryTokenType.NARRATIVE_TYPE, STORY_DESCRIPTION);
         ATTRIBUTES.put(StoryTokenType.NARRATIVE_TEXT, STORY_DESCRIPTION);
+        ATTRIBUTES.put(StoryTokenType.GIVEN_STORIES, GIVENSTORIES_TYPE);
         ATTRIBUTES.put(StoryTokenType.SCENARIO_TYPE, SCENARIO_TYPE);
         ATTRIBUTES.put(StoryTokenType.SCENARIO_TEXT, SCENARIO_TEXT);
         ATTRIBUTES.put(StoryTokenType.GIVEN_TYPE, STEP_TYPE);
