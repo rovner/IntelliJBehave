@@ -88,7 +88,7 @@ public class JavaStepDefinition {
         return new Function<String, StepMatcher>() {
             @Override
             public StepMatcher apply(@Nullable String annotationText) {
-                return new OptimizedStepMatcher(stepPatternParser.parseStep(annotationType, annotationText));
+                return stepPatternParser.parseStep(annotationType, annotationText);
             }
         };
     }
