@@ -26,7 +26,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class StoryParser implements PsiParser {
 
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
 
     @NotNull
     @Override
@@ -71,13 +71,20 @@ public class StoryParser implements PsiParser {
                 state.leaveWhitespace();
             }
 
-
             if (isStoryDescription(tokenType)) {
                 state.enterStoryDescription();
                 builder.advanceLexer();
                 continue whileLoop;
             } else {
                 state.leaveStoryDescription();
+            }
+
+            if (isGivenStories(tokenType)) {
+                state.enterGivenStories();
+                builder.advanceLexer();
+                continue whileLoop;
+            } else {
+                state.leaveGivenStories();
             }
 
             if (isScenario(tokenType)) {
@@ -125,9 +132,9 @@ public class StoryParser implements PsiParser {
             }
 
             // unknown
-            PsiBuilder.Marker unknwonMark = builder.mark();
+            PsiBuilder.Marker unknownMark = builder.mark();
             builder.advanceLexer();
-            unknwonMark.done(StoryElementType.UNKNOWN_FRAGMENT);
+            unknownMark.done(StoryElementType.UNKNOWN_FRAGMENT);
         }
         state.leaveRemainings();
         storyMarker.done(StoryElementType.STORY);
@@ -250,6 +257,18 @@ public class StoryParser implements PsiParser {
 
         private void leaveStoryDescription() {
             popUntilOnlyIfPresent(StoryElementType.STORY_DESCRIPTION);
+        }
+
+        public void enterGivenStories() {
+            leaveRemainings();
+            previousStepElementType = null;
+            matchesHeadOrPush(StoryElementType.GIVEN_STORIES);
+        }
+
+        private void leaveGivenStories() {
+            leaveRemainings();
+            previousStepElementType = null;
+            popUntilOnlyIfPresent(StoryElementType.GIVEN_STORIES);
         }
 
         public void enterScenario() {
@@ -381,6 +400,8 @@ public class StoryParser implements PsiParser {
     private static boolean isWhitespace(IElementType tokenType) {
         return tokenType == StoryTokenType.WHITE_SPACE;
     }
+
+    private static boolean isGivenStories(IElementType tokenType) { return tokenType == StoryTokenType.GIVEN_STORIES; }
 
     private static boolean isComment(IElementType tokenType) {
         return tokenType == StoryTokenType.COMMENT
