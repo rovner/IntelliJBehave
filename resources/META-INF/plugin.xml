@@ -75,6 +75,14 @@
 
     <h2>Release notes:</h2>
     <p>
+        New in version 1.61:
+    </p>
+    <ul>
+        <li>Updated Localized Lexer to handle GivenStories in a story</li>
+        <li>Added GivenStories type and GivenStories text to the highlighter and added them to the Colors & Fonts settings page for JBehave</li>
+        <li>Changed highlighting of Meta keyword and tags</li>
+    </ul>
+    <p>
         New in version 1.6:
     </p>
     <ul>

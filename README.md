@@ -20,6 +20,11 @@ Most of the original code has been retained, but several improvements have been 
 Latest
 ------
 Latest changes in this plugin are to support IntelliJ IDEA 2016.1 and up.
+
+Update 2017/3/20:
+Update localized lexer to handle GivenStories.
+Added GivenStories type and text to the highlighter and Colors & Fonts settings page for JBehave.
+Change highlighting of Meta keyword and tags.
     
 Features
 --------
