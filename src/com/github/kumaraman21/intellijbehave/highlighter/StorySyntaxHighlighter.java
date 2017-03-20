@@ -48,7 +48,9 @@ public class StorySyntaxHighlighter extends SyntaxHighlighterBase {
     @NonNls
     public static final String STORY_DESCRIPTION_ID = "JBEHAVE.STORY_DESCRIPTION";
     @NonNls
-    public static final String GIVENSTORIES_TYPE_ID = "JBEHAVE.GIVENSTORIES_TYPE";
+    public static final String GIVEN_STORIES_TYPE_ID = "JBEHAVE.GIVEN_STORIES_TYPE";
+    @NonNls
+    public static final String GIVEN_STORIES_TEXT_ID = "JBEHAVE.GIVEN_STORIES_TEXT";
     @NonNls
     public static final String SCENARIO_TYPE_ID = "JBEHAVE.SCENARIO_TYPE";
     @NonNls
@@ -75,22 +77,24 @@ public class StorySyntaxHighlighter extends SyntaxHighlighterBase {
     // Registering TextAttributes
     static {
         createKey(STORY_DESCRIPTION_ID, DefaultLanguageHighlighterColors.NUMBER);
-        createKey(GIVENSTORIES_TYPE_ID, DefaultLanguageHighlighterColors.KEYWORD);
+        createKey(GIVEN_STORIES_TYPE_ID, DefaultLanguageHighlighterColors.KEYWORD);
+        createKey(GIVEN_STORIES_TEXT_ID, DefaultLanguageHighlighterColors.IDENTIFIER);
         createKey(SCENARIO_TYPE_ID, DefaultLanguageHighlighterColors.STATIC_FIELD);
         createKey(SCENARIO_TEXT_ID, DefaultLanguageHighlighterColors.STATIC_FIELD);
         createKey(STEP_TYPE_ID, DefaultLanguageHighlighterColors.KEYWORD);
         createKey(STEP_TEXT_ID, HighlighterColors.TEXT);
         createKey(TABLE_DELIM_ID, DefaultLanguageHighlighterColors.BRACES);
         createKey(TABLE_CELL_ID, DefaultLanguageHighlighterColors.STRING);
-        createKey(META_TYPE_ID, DefaultLanguageHighlighterColors.KEYWORD);
-        createKey(META_KEY_ID, DefaultLanguageHighlighterColors.STRING);
-        createKey(META_TEXT_ID, DefaultLanguageHighlighterColors.STRING);
+        createKey(META_TYPE_ID, DefaultLanguageHighlighterColors.METADATA);
+        createKey(META_KEY_ID, DefaultLanguageHighlighterColors.DOC_COMMENT_MARKUP);
+        createKey(META_TEXT_ID, DefaultLanguageHighlighterColors.DOC_COMMENT_MARKUP);
         createKey(LINE_COMMENT_ID, DefaultLanguageHighlighterColors.LINE_COMMENT);
         createKey(BAD_CHARACTER_ID, DefaultLanguageHighlighterColors.INVALID_STRING_ESCAPE);
     }
 
     public static TextAttributesKey STORY_DESCRIPTION = createTextAttributesKey(STORY_DESCRIPTION_ID);
-    public static TextAttributesKey GIVENSTORIES_TYPE = createTextAttributesKey(GIVENSTORIES_TYPE_ID);
+    public static TextAttributesKey GIVEN_STORIES_TYPE = createTextAttributesKey(GIVEN_STORIES_TYPE_ID);
+    public static TextAttributesKey GIVEN_STORIES_TEXT = createTextAttributesKey(GIVEN_STORIES_TEXT_ID);
     public static TextAttributesKey SCENARIO_TYPE = createTextAttributesKey(SCENARIO_TYPE_ID);
     public static TextAttributesKey SCENARIO_TEXT = createTextAttributesKey(SCENARIO_TEXT_ID);
     public static TextAttributesKey STEP_TYPE = createTextAttributesKey(STEP_TYPE_ID);
@@ -107,7 +111,8 @@ public class StorySyntaxHighlighter extends SyntaxHighlighterBase {
         ATTRIBUTES.put(StoryTokenType.STORY_DESCRIPTION, STORY_DESCRIPTION);
         ATTRIBUTES.put(StoryTokenType.NARRATIVE_TYPE, STORY_DESCRIPTION);
         ATTRIBUTES.put(StoryTokenType.NARRATIVE_TEXT, STORY_DESCRIPTION);
-        ATTRIBUTES.put(StoryTokenType.GIVEN_STORIES, GIVENSTORIES_TYPE);
+        ATTRIBUTES.put(StoryTokenType.GIVEN_STORIES_TYPE, GIVEN_STORIES_TYPE);
+        ATTRIBUTES.put(StoryTokenType.GIVEN_STORIES_TEXT, GIVEN_STORIES_TEXT);
         ATTRIBUTES.put(StoryTokenType.SCENARIO_TYPE, SCENARIO_TYPE);
         ATTRIBUTES.put(StoryTokenType.SCENARIO_TEXT, SCENARIO_TEXT);
         ATTRIBUTES.put(StoryTokenType.GIVEN_TYPE, STEP_TYPE);

@@ -34,7 +34,8 @@ public class StoryColorsAndFontsPage implements ColorSettingsPage {
 
     private static final AttributesDescriptor[] ATTRS = new AttributesDescriptor[]{
             new AttributesDescriptor("Story description", StorySyntaxHighlighter.STORY_DESCRIPTION),//
-            new AttributesDescriptor("GivenStories keyword", StorySyntaxHighlighter.GIVENSTORIES_TYPE),//
+            new AttributesDescriptor("GivenStories keyword", StorySyntaxHighlighter.GIVEN_STORIES_TYPE),//
+            new AttributesDescriptor("GivenStories text", StorySyntaxHighlighter.GIVEN_STORIES_TEXT),//
             new AttributesDescriptor("Scenario keyword", StorySyntaxHighlighter.SCENARIO_TYPE),//
             new AttributesDescriptor("Scenario text", StorySyntaxHighlighter.SCENARIO_TEXT),//
             new AttributesDescriptor("Step keyword", StorySyntaxHighlighter.STEP_TYPE),//
@@ -73,6 +74,8 @@ public class StoryColorsAndFontsPage implements ColorSettingsPage {
                 "Meta:\n" + //
                 "@author mccallum\n" + //
                 "@skip\n" + //
+                "\n" + //
+                "GivenStories:\t/stories/create_user.story{#weird}\n" + //
                 "\n" + //
                 "Given i am the user with nickname: \"weird\"\n" + //
                 "When i try to login using the password \"soweird\"\n" + //
