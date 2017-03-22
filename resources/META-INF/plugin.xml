@@ -162,6 +162,9 @@
         <localInspection id="undefinedStep" language="Story" displayName="Undefined step"
                          groupName="JBehave" enabledByDefault="true" level="WARNING"
                          implementationClass="com.github.kumaraman21.intellijbehave.codeInspector.UndefinedStepInspection"/>
+        <localInspection id="undefinedGivenStory" language="Story" displayName="Undefined given story"
+                         groupName="JBehave" enabledByDefault="true" level="WARNING"
+                         implementationClass="com.github.kumaraman21.intellijbehave.codeInspector.UndefinedGivenStoryInspection"/>
         <psi.referenceContributor
                 implementation="com.github.kumaraman21.intellijbehave.resolver.StepPsiReferenceContributor"/>
 
