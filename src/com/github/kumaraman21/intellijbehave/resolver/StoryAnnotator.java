@@ -25,8 +25,11 @@ import com.intellij.lang.annotation.Annotator;
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
+import com.intellij.psi.search.EverythingGlobalScope;
+import com.intellij.psi.search.FilenameIndex;
 import org.jetbrains.annotations.NotNull;
 
 import static com.github.kumaraman21.intellijbehave.utility.ParametrizedString.StringToken;
