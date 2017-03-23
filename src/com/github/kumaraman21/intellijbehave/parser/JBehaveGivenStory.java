@@ -14,6 +14,13 @@ public class JBehaveGivenStory extends ASTWrapperPsiElement {
         super(node);
     }
 
+    public String getFilename() {
+        String[] pathElements = getPath().split("/");
+        String fileNameWithMeta = pathElements[pathElements.length-1];
+
+        return fileNameWithMeta.split("#")[0];
+    }
+    
     public String getPath() {
         String path = getText();
 
