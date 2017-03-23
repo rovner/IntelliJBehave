@@ -17,19 +17,15 @@ package com.github.kumaraman21.intellijbehave.codeInspector;
 
 import com.github.kumaraman21.intellijbehave.highlighter.StorySyntaxHighlighter;
 import com.github.kumaraman21.intellijbehave.parser.JBehaveGivenStory;
-import com.github.kumaraman21.intellijbehave.parser.JBehaveStep;
-import com.github.kumaraman21.intellijbehave.resolver.StepPsiReference;
-import com.github.kumaraman21.intellijbehave.service.JavaStepDefinition;
-import com.github.kumaraman21.intellijbehave.utility.ParametrizedString;
-import com.github.kumaraman21.intellijbehave.utility.ParametrizedString.StringToken;
 import com.intellij.codeInspection.*;
 import com.intellij.codeInspection.ex.ProblemDescriptorImpl;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import com.intellij.psi.PsiReference;
-import com.intellij.util.indexing.FileBasedIndex;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.search.EverythingGlobalScope;
+import com.intellij.psi.search.FilenameIndex;
 import org.jetbrains.annotations.NotNull;
 
 public class UndefinedGivenStoryInspection extends LocalInspectionTool {
@@ -55,17 +51,26 @@ public class UndefinedGivenStoryInspection extends LocalInspectionTool {
 
                 JBehaveGivenStory givenStory = (JBehaveGivenStory) psiElement;
 
+                PsiFile[] psiFiles = FilenameIndex.getFilesByName(givenStory.getProject(), givenStory.getFilename(), EverythingGlobalScope.allScope(givenStory.getProject()));
 //                PsiReference[] references = givenStory.getReferences();
 //
 //                if (references.length != 1 || !(references[0] instanceof StepPsiReference)) {
 //                    return;
 //                }
+                if(psiFiles.length != 1) {
+                    return;
+                }
 //
+                PsiFile psiFile = psiFiles[0];
 //                StepPsiReference reference = (StepPsiReference) references[0];
 //                JavaStepDefinition definition = reference.resolveToDefinition();
 //
 //                if (definition == null) {
+                if (psiFile == null) {
                     holder.registerProblem(givenStory, "Given story <code>#ref</code> is not defined");
+                } else {
+                    highlightParameters(givenStory, psiFile, holder);
+                }
 //                } else {
 //                    highlightParameters(givenStory, holder);
 //                }
@@ -74,7 +79,7 @@ public class UndefinedGivenStoryInspection extends LocalInspectionTool {
     }
 
 
-    private void highlightParameters(JBehaveGivenStory givenStory, ProblemsHolder holder) {
+    private void highlightParameters(JBehaveGivenStory givenStory, PsiFile psiFile, ProblemsHolder holder) {
         String stepText = givenStory.getPath();
 
 //        String annotationText = javaStepDefinition.getAnnotationTextFor(stepText);
