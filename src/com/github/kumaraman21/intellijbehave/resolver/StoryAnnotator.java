@@ -41,7 +41,18 @@ public class StoryAnnotator implements Annotator {
 
         if (psiElement instanceof JBehaveGivenStory) {
             JBehaveGivenStory givenStory = (JBehaveGivenStory) psiElement;
-            annotationHolder.createErrorAnnotation(psiElement, "No definition found for the given story");
+            PsiFile[] psiFiles = FilenameIndex.getFilesByName(givenStory.getProject(), givenStory.getFilename(), EverythingGlobalScope.allScope(givenStory.getProject()));
+
+            if(psiFiles.length != 1) {
+                return;
+            }
+            PsiFile psiFile = psiFiles[0];
+
+            if (psiFile == null) {
+                annotationHolder.createErrorAnnotation(psiElement, "No definition found for the given story");
+            } else {
+                annotateGivenStory(givenStory, psiFile, annotationHolder);
+            }
         } else {
             JBehaveStep step = (JBehaveStep) psiElement;
             PsiReference[] references = step.getReferences();
@@ -59,6 +70,13 @@ public class StoryAnnotator implements Annotator {
                 annotateParameters(step, definition, annotationHolder);
             }
         }
+    }
+    
+    private void annotateGivenStory(JBehaveGivenStory givenStory, PsiFile psiFile, AnnotationHolder annotationHolder) {
+        int offset = givenStory.getTextOffset();
+
+        Annotation annotation = annotationHolder.createInfoAnnotation(TextRange.from(offset, givenStory.getTextLength()), psiFile.getName());
+        annotation.setTextAttributes(DefaultLanguageHighlighterColors.STATIC_METHOD);
     }
 
     private void annotateParameters(JBehaveStep step, JavaStepDefinition javaStepDefinition, AnnotationHolder annotationHolder) {
