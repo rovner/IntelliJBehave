@@ -114,6 +114,22 @@ public enum JBKeyword {
         public String asString(Keywords keywords) {
             return keywords.ignorable();
         }
+    },
+    Lifecycle {
+        @Override
+        public String asString(Keywords keywords) { return keywords.lifecycle(); }
+    },
+    Before {
+        @Override
+        public String asString(Keywords keywords) { return keywords.before(); }
+    },
+    After {
+        @Override
+        public String asString(Keywords keywords) { return keywords.after(); }
+    },
+    Outcome {
+        @Override
+        public String asString(Keywords keywords) { return keywords.outcome(); }
     };
 
     public String asString(Keywords keywords) {
