@@ -42,6 +42,13 @@ public class StoryElementType extends IElementType {
 
     public static final TokenSet STEPS_TOKEN_SET = TokenSet.create(GIVEN_STEP, WHEN_STEP, THEN_STEP);
 
+    public static final StoryElementType LIFECYCLE = new StoryElementType("LIFECYCLE");
+    public static final StoryElementType LIFECYCLE_BEFORE = new StoryElementType("LIFECYCLE_BEFORE");
+    public static final StoryElementType LIFECYCLE_AFTER = new StoryElementType("LIFECYCLE_AFTER");
+    public static final StoryElementType LIFECYCLE_OUTCOME = new StoryElementType("LIFECYCLE_OUTCOME");
+
+    public static final TokenSet LIFECYCLE_TOKEN_SET = TokenSet.create(LIFECYCLE, LIFECYCLE_BEFORE, LIFECYCLE_AFTER, LIFECYCLE_OUTCOME);
+
 
     public StoryElementType(@NotNull @NonNls String debugName) {
         super(debugName, STORY_FILE_TYPE.getLanguage());

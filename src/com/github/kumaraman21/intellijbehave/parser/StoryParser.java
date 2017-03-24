@@ -104,6 +104,12 @@ public class StoryParser implements PsiParser {
                 continue whileLoop;
             }
 
+            if (isLifecycleType(tokenType)) {
+                state.enterLifecycle(tokenType);
+                builder.advanceLexer();
+                continue whileLoop;
+            }
+
             if (isStepType(tokenType)) {
                 state.enterStepType(tokenType);
                 builder.advanceLexer();
@@ -291,8 +297,34 @@ public class StoryParser implements PsiParser {
             popUntilOnlyIfPresent(StoryElementType.META);
         }
 
+        public void enterLifecycle(IElementType tokenType) {
+            leaveRemainings();
+
+            StoryElementType elementType = previousStepElementType;
+            if (tokenType == StoryTokenType.LIFECYCLE_BEFORE_TYPE) {
+                elementType = StoryElementType.LIFECYCLE_BEFORE;
+            } else if (tokenType == StoryTokenType.LIFECYCLE_AFTER_TYPE) {
+                elementType = StoryElementType.LIFECYCLE_AFTER;
+            } else if (tokenType == StoryTokenType.LIFECYCLE_OUTCOME_TYPE) {
+                elementType = StoryElementType.LIFECYCLE_OUTCOME;
+            }
+
+            if (elementType == null) { // yuk!
+                elementType = StoryElementType.LIFECYCLE;
+            }
+
+            previousStepElementType = elementType;
+            matchesHeadOrPush(elementType);
+        }
+
+        private void leaveLifecycle() {
+            leaveTableRow();
+            popUntilOnlyIfPresent(StoryElementType.LIFECYCLE_TOKEN_SET);
+        }
+
         public void enterStepType(IElementType tokenType) {
             leaveExampleTable();
+            leaveLifecycle();
             leaveGivenStories();
             leaveMeta();
             leaveStep();
@@ -387,6 +419,14 @@ public class StoryParser implements PsiParser {
                 || tokenType == StoryTokenType.STEP_TYPE_WHEN
                 || tokenType == StoryTokenType.STEP_TYPE_THEN
                 || tokenType == StoryTokenType.STEP_TYPE_AND;
+    }
+
+    private static boolean isLifecycleType(IElementType tokenType) {
+        return tokenType == StoryTokenType.LIFECYCLE_TYPE
+                || tokenType == StoryTokenType.LIFECYCLE_BEFORE_TYPE
+                || tokenType == StoryTokenType.LIFECYCLE_AFTER_TYPE
+                || tokenType == StoryTokenType.LIFECYCLE_OUTCOME_TYPE
+                || tokenType == StoryTokenType.LIFECYCLE_OUTCOME_TEXT;
     }
 
     private static boolean isStepText(IElementType tokenType) {

@@ -23,6 +23,7 @@ public class StoryLocalizedLexer extends LexerBase {
         IN_STORY,
         IN_GIVENSTORIES,
         IN_SCENARIO,
+        IN_LIFECYCLE,
         IN_STEP,
         IN_TABLE,
         IN_STEP_TABLE,
@@ -193,6 +194,10 @@ public class StoryLocalizedLexer extends LexerBase {
                             case InOrderTo:
                             case Scenario:
                             case GivenStories:
+                            case Lifecycle:
+                            case Before:
+                            case After:
+                            case Outcome:
                                 state = State.IN_DISPATCH;
                                 return;
                             case ExamplesTableHeaderSeparator:
@@ -227,6 +232,10 @@ public class StoryLocalizedLexer extends LexerBase {
                             case InOrderTo:
                             case Scenario:
                             case GivenStories:
+                            case Lifecycle:
+                            case Before:
+                            case After:
+                            case Outcome:
                                 state = State.IN_DISPATCH;
                                 return;
                             case ExamplesTableHeaderSeparator:
@@ -239,6 +248,44 @@ public class StoryLocalizedLexer extends LexerBase {
                 } else {
                     consume(INPUT_CHAR);
                     tokenType = StoryTokenType.SCENARIO_TEXT;
+                    return;
+                }
+            }
+            case IN_LIFECYCLE: {
+                if (consume(CRLF)) {
+                    tokenType = StoryTokenType.WHITE_SPACE;
+                    //
+                    CharTree.Entry<JBKeyword> entry = charTree.lookup(buffer, position);
+                    if (entry.hasValue()) {
+                        switch (entry.value) {
+                            case Given:
+                            case When:
+                            case Then:
+                            case And:
+                            case Meta:
+                            case ExamplesTable:
+                            case Narrative:
+                            case AsA:
+                            case IWantTo:
+                            case InOrderTo:
+                            case Scenario:
+                            case GivenStories:
+                            case Lifecycle:
+                            case Before:
+                            case After:
+                            case Outcome:
+                                state = State.IN_DISPATCH;
+                                return;
+                            case ExamplesTableHeaderSeparator:
+                            case ExamplesTableValueSeparator:
+                                state = State.IN_OTHER_TABLE;
+                                return;
+                        }
+                    }
+                    return;
+                } else {
+                    consume(INPUT_CHAR);
+                    tokenType = StoryTokenType.LIFECYCLE_OUTCOME_TEXT;
                     return;
                 }
             }
@@ -278,6 +325,10 @@ public class StoryLocalizedLexer extends LexerBase {
                             case InOrderTo:
                             case Scenario:
                             case GivenStories:
+                            case Lifecycle:
+                            case Before:
+                            case After:
+                            case Outcome:
                                 state = State.IN_DISPATCH;
                                 return;
                             case ExamplesTableHeaderSeparator:
@@ -314,6 +365,10 @@ public class StoryLocalizedLexer extends LexerBase {
                             case InOrderTo:
                             case Scenario:
                             case GivenStories:
+                            case Lifecycle:
+                            case Before:
+                            case After:
+                            case Outcome:
                                 state = State.IN_DISPATCH;
                                 return;
                             case ExamplesTableHeaderSeparator:
@@ -352,6 +407,10 @@ public class StoryLocalizedLexer extends LexerBase {
                             case InOrderTo:
                             case Scenario:
                             case GivenStories:
+                            case Lifecycle:
+                            case Before:
+                            case After:
+                            case Outcome:
                                 state = State.IN_DISPATCH;
                                 return;
                         }
@@ -518,7 +577,18 @@ public class StoryLocalizedLexer extends LexerBase {
             case Scenario:
                 state = State.IN_SCENARIO;
                 return StoryTokenType.SCENARIO_TYPE;
-
+            case Lifecycle:
+                state = State.IN_LIFECYCLE;
+                return StoryTokenType.LIFECYCLE_TYPE;
+            case Before:
+                state = State.IN_LIFECYCLE;
+                return StoryTokenType.LIFECYCLE_BEFORE_TYPE;
+            case After:
+                state = State.IN_LIFECYCLE;
+                return StoryTokenType.LIFECYCLE_AFTER_TYPE;
+            case Outcome:
+                state = State.IN_LIFECYCLE;
+                return StoryTokenType.LIFECYCLE_OUTCOME_TYPE;
             case MetaProperty:
                 break;
             case ExamplesTableRow:

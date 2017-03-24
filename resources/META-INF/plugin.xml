@@ -16,7 +16,7 @@
 <idea-plugin version="2" url="https://github.com/stefanschenk/IntelliJBehave">
     <name>JBehave Syntax Support</name>
     <id>jbehave-syntax-support</id>
-    <version>1.6</version>
+    <version>1.61-b</version>
     <vendor url="https://github.com/stefanschenk" email="swj@schenkweb.nl">Stefan Schenk</vendor>
     <description><![CDATA[
     <h1>IntelliJ IDEA Plugin for JBehave</h1>
@@ -74,6 +74,12 @@
     </ul>
 
     <h2>Release notes:</h2>
+    <p>
+        New in version 1.61-b:
+    </p>
+    <ul>
+        <li>Fix for issue #2, added recognition of Lifecycle keywords.</li>
+    </ul>
     <p>
         New in version 1.61:
     </p>

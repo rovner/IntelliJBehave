@@ -21,6 +21,9 @@ Latest
 ------
 Latest changes in this plugin are to support IntelliJ IDEA 2016.1 and up.
 
+Update 2017/3/24:
+Fixed issue #2, added recognition of Lifecycle keywords, no highlighting added yet.
+
 Update 2017/3/20:
 Update localized lexer to handle GivenStories.
 Added GivenStories type and text to the highlighter and Colors & Fonts settings page for JBehave.

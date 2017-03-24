@@ -15,6 +15,7 @@
  */
 package com.github.kumaraman21.intellijbehave.highlighter;
 
+import com.github.kumaraman21.intellijbehave.parser.StoryElementType;
 import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
@@ -59,6 +60,18 @@ public class StoryTokenType extends IElementType {
 
     public static final IElementType NARRATIVE_TYPE = new StoryTokenType("NARRATIVE_TYPE");
     public static final IElementType NARRATIVE_TEXT = new StoryTokenType("NARRATIVE_TEXT");
+
+    /**
+     * Story syntax Lifecycle types
+     */
+    public static final IElementType LIFECYCLE_TYPE = new StoryTokenType("LIFECYCLE_TYPE");
+    public static final IElementType LIFECYCLE_BEFORE_TYPE = new StoryTokenType("LIFECYCLE_BEFORE_TYPE");
+    public static final IElementType LIFECYCLE_AFTER_TYPE = new StoryTokenType("LIFECYCLE_AFTER_TYPE");
+    public static final IElementType LIFECYCLE_OUTCOME_TYPE = new StoryTokenType("LIFECYCLE_OUTCOME_TYPE");
+
+    public static final TokenSet LIFECYCLE_TYPES = TokenSet.create(LIFECYCLE_TYPE, LIFECYCLE_BEFORE_TYPE, LIFECYCLE_AFTER_TYPE, LIFECYCLE_OUTCOME_TYPE);
+
+    public static final IElementType LIFECYCLE_OUTCOME_TEXT = new StoryTokenType("LIFECYCLE_OUTCOME_TEXT");
 
     private final String key;
 
