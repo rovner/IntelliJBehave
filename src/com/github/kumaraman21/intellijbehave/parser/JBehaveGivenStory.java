@@ -2,16 +2,21 @@ package com.github.kumaraman21.intellijbehave.parser;
 
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiReference;
+import com.intellij.psi.impl.source.resolve.reference.ReferenceProvidersRegistry;
 import org.jetbrains.annotations.NotNull;
 
 import static org.apache.commons.lang.StringUtils.trim;
 
-/**
- * Created by Stefan on 3/19/2017.
- */
 public class JBehaveGivenStory extends ASTWrapperPsiElement {
     public JBehaveGivenStory(@NotNull ASTNode node) {
         super(node);
+    }
+
+    @Override
+    @NotNull
+    public PsiReference[] getReferences() {
+        return ReferenceProvidersRegistry.getReferencesFromProviders(this);
     }
 
     public String getFilename() {

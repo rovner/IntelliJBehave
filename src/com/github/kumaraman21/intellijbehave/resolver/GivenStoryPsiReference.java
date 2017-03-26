@@ -9,9 +9,6 @@ import com.intellij.util.ArrayUtil;
 import com.intellij.util.IncorrectOperationException;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * Created by Stefan on 3/23/2017.
- */
 public class GivenStoryPsiReference implements PsiPolyVariantReference {
     private final JBehaveGivenStory myGivenStory;
     private final TextRange myRange;
