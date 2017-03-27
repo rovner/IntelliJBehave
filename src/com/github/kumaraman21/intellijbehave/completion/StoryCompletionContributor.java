@@ -78,6 +78,14 @@ public class StoryCompletionContributor extends CompletionContributor {
         addIfMatches(consumer, prefixMatcher, keywords.scenario());
         addIfMatches(consumer, prefixMatcher, keywords.examplesTable());
         //
+        addIfMatches(consumer, prefixMatcher, keywords.lifecycle());
+        addIfMatches(consumer, prefixMatcher, keywords.before());
+        addIfMatches(consumer, prefixMatcher, keywords.after());
+        addIfMatches(consumer, prefixMatcher, keywords.outcome());
+        addIfMatches(consumer, prefixMatcher, keywords.outcomeAny());
+        addIfMatches(consumer, prefixMatcher, keywords.outcomeFailure());
+        addIfMatches(consumer, prefixMatcher, keywords.outcomeSuccess());
+        //
         addIfMatches(consumer, prefixMatcher, keywords.given());
         addIfMatches(consumer, prefixMatcher, keywords.when());
         addIfMatches(consumer, prefixMatcher, keywords.then());
