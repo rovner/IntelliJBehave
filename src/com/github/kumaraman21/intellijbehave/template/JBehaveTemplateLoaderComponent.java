@@ -30,9 +30,9 @@ import static com.intellij.openapi.util.io.FileUtil.loadTextAndClose;
 public class JBehaveTemplateLoaderComponent implements ApplicationComponent {
   @Override
   public void initComponent() {
-    FileTemplate template = FileTemplateManager.getInstance().getTemplate(STORY_FILE_TYPE.getName());
+    FileTemplate template = FileTemplateManager.getDefaultInstance().getTemplate(STORY_FILE_TYPE.getName());
     if (template == null) {
-      template = FileTemplateManager.getInstance()
+      template = FileTemplateManager.getDefaultInstance()
         .addTemplate(STORY_FILE_TYPE.getName(), STORY_FILE_TYPE.getDefaultExtension());
 
       InputStream stream = getClass().getResourceAsStream("/fileTemplates/JBehave Story.story.ft");
