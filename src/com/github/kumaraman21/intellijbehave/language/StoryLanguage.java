@@ -23,7 +23,7 @@ import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory;
 import org.jetbrains.annotations.NotNull;
 
 public class StoryLanguage extends CompositeLanguage {
-  public static final StoryLanguage STORY_LANGUAGE = new StoryLanguage();
+  public static final StoryLanguage INSTANCE = new StoryLanguage();
 
   private StoryLanguage() {
     super("Story", "text/story");
