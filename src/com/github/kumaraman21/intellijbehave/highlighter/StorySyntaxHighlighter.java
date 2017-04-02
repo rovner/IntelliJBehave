@@ -22,6 +22,7 @@ import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
 import com.intellij.psi.tree.IElementType;
 import gnu.trove.THashMap;
+import org.jbehave.core.model.Story;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
@@ -56,6 +57,10 @@ public class StorySyntaxHighlighter extends SyntaxHighlighterBase {
     @NonNls
     public static final String SCENARIO_TEXT_ID = "JBEHAVE.SCENARIO_TEXT";
     @NonNls
+    public static final String LIFECYCLE_TYPE_ID = "JBEHAVE.LIFECYCLE_TYPE";
+    @NonNls
+    public static final String LIFECYCLE_TEXT_ID = "JBEHAVE_LIFECYCLE_TEXT";
+    @NonNls
     public static final String STEP_TYPE_ID = "JBEHAVE.STEP_TYPE";
     @NonNls
     public static final String STEP_TEXT_ID = "JBEHAVE.STEP_TEXT";
@@ -78,9 +83,11 @@ public class StorySyntaxHighlighter extends SyntaxHighlighterBase {
     static {
         createKey(STORY_DESCRIPTION_ID, DefaultLanguageHighlighterColors.NUMBER);
         createKey(GIVEN_STORIES_TYPE_ID, DefaultLanguageHighlighterColors.KEYWORD);
-        createKey(GIVEN_STORIES_TEXT_ID, DefaultLanguageHighlighterColors.IDENTIFIER);
+        createKey(GIVEN_STORIES_TEXT_ID, HighlighterColors.TEXT);
         createKey(SCENARIO_TYPE_ID, DefaultLanguageHighlighterColors.STATIC_FIELD);
         createKey(SCENARIO_TEXT_ID, DefaultLanguageHighlighterColors.STATIC_FIELD);
+        createKey(LIFECYCLE_TYPE_ID, HighlighterColors.TEXT);
+        createKey(LIFECYCLE_TEXT_ID, HighlighterColors.TEXT);
         createKey(STEP_TYPE_ID, DefaultLanguageHighlighterColors.KEYWORD);
         createKey(STEP_TEXT_ID, HighlighterColors.TEXT);
         createKey(TABLE_DELIM_ID, DefaultLanguageHighlighterColors.BRACES);
@@ -97,6 +104,8 @@ public class StorySyntaxHighlighter extends SyntaxHighlighterBase {
     public static TextAttributesKey GIVEN_STORIES_TEXT = createTextAttributesKey(GIVEN_STORIES_TEXT_ID);
     public static TextAttributesKey SCENARIO_TYPE = createTextAttributesKey(SCENARIO_TYPE_ID);
     public static TextAttributesKey SCENARIO_TEXT = createTextAttributesKey(SCENARIO_TEXT_ID);
+    public static TextAttributesKey LIFECYCLE_TYPE = createTextAttributesKey(LIFECYCLE_TYPE_ID);
+    public static TextAttributesKey LIFECYCLE_TEXT = createTextAttributesKey(LIFECYCLE_TEXT_ID);
     public static TextAttributesKey STEP_TYPE = createTextAttributesKey(STEP_TYPE_ID);
     public static TextAttributesKey STEP_TEXT = createTextAttributesKey(STEP_TEXT_ID);
     public static TextAttributesKey TABLE_DELIM = createTextAttributesKey(TABLE_DELIM_ID);
@@ -115,6 +124,11 @@ public class StorySyntaxHighlighter extends SyntaxHighlighterBase {
         ATTRIBUTES.put(StoryTokenType.GIVEN_STORIES_TEXT, GIVEN_STORIES_TEXT);
         ATTRIBUTES.put(StoryTokenType.SCENARIO_TYPE, SCENARIO_TYPE);
         ATTRIBUTES.put(StoryTokenType.SCENARIO_TEXT, SCENARIO_TEXT);
+        ATTRIBUTES.put(StoryTokenType.LIFECYCLE_TYPE, LIFECYCLE_TYPE);
+        ATTRIBUTES.put(StoryTokenType.LIFECYCLE_AFTER_TYPE, LIFECYCLE_TYPE);
+        ATTRIBUTES.put(StoryTokenType.LIFECYCLE_BEFORE_TYPE, LIFECYCLE_TYPE);
+        ATTRIBUTES.put(StoryTokenType.LIFECYCLE_OUTCOME_TYPE, LIFECYCLE_TYPE);
+        ATTRIBUTES.put(StoryTokenType.LIFECYCLE_OUTCOME_TEXT, LIFECYCLE_TEXT);
         ATTRIBUTES.put(StoryTokenType.GIVEN_TYPE, STEP_TYPE);
         ATTRIBUTES.put(StoryTokenType.WHEN_TYPE, STEP_TYPE);
         ATTRIBUTES.put(StoryTokenType.THEN_TYPE, STEP_TYPE);
