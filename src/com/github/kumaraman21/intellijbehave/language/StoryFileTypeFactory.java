@@ -24,6 +24,6 @@ import static com.github.kumaraman21.intellijbehave.language.StoryFileType.*;
 public class StoryFileTypeFactory extends FileTypeFactory {
   @Override
   public void createFileTypes(@NotNull FileTypeConsumer fileTypeConsumer) {
-    fileTypeConsumer.consume(STORY_FILE_TYPE, STORY_FILE_TYPE.getDefaultExtension());
+    fileTypeConsumer.consume(StoryFileType.INSTANCE, StoryFileType.DEFAULT_EXTENSION);
   }
 }

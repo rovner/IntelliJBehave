@@ -15,13 +15,11 @@
  */
 package com.github.kumaraman21.intellijbehave.highlighter;
 
-import com.github.kumaraman21.intellijbehave.parser.StoryElementType;
+import com.github.kumaraman21.intellijbehave.language.StoryFileType;
 import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
 import org.jetbrains.annotations.NonNls;
-
-import static com.github.kumaraman21.intellijbehave.language.StoryFileType.STORY_FILE_TYPE;
 
 public class StoryTokenType extends IElementType {
 
@@ -76,7 +74,7 @@ public class StoryTokenType extends IElementType {
     private final String key;
 
     public StoryTokenType(@NonNls String debugName) {
-        super(debugName, STORY_FILE_TYPE.getLanguage());
+        super(debugName, StoryFileType.INSTANCE.getLanguage());
         this.key = debugName;
     }
 

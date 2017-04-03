@@ -15,19 +15,18 @@
  */
 package com.github.kumaraman21.intellijbehave.parser;
 
+import com.github.kumaraman21.intellijbehave.language.StoryFileType;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
-import static com.github.kumaraman21.intellijbehave.language.StoryFileType.STORY_FILE_TYPE;
-
 public class StoryElementType extends IElementType {
     public static final StoryElementType UNKNOWN_FRAGMENT = new StoryElementType("UNKNOWN_FRAGMENT");
 
     public static final StoryElementType COMMENT = new StoryElementType("COMMENT");
-    public static final IFileElementType STORY_FILE = new IFileElementType(STORY_FILE_TYPE.getLanguage());
+    public static final IFileElementType STORY_FILE = new IFileElementType(StoryFileType.INSTANCE.getLanguage());
     public static final StoryElementType STORY = new StoryElementType("STORY");
     public static final StoryElementType STORY_DESCRIPTION = new StoryElementType("STORY_DESCRIPTION");
     public static final StoryElementType GIVEN_STORIES = new StoryElementType("GIVEN_STORIES");
@@ -51,6 +50,6 @@ public class StoryElementType extends IElementType {
 
 
     public StoryElementType(@NotNull @NonNls String debugName) {
-        super(debugName, STORY_FILE_TYPE.getLanguage());
+        super(debugName, StoryFileType.INSTANCE.getLanguage());
     }
 }

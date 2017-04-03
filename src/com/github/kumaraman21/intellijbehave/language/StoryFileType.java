@@ -16,17 +16,21 @@
 package com.github.kumaraman21.intellijbehave.language;
 
 import com.intellij.openapi.fileTypes.LanguageFileType;
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 
-import static com.github.kumaraman21.intellijbehave.language.StoryLanguage.STORY_LANGUAGE;
 
 public class StoryFileType extends LanguageFileType {
-    public static final StoryFileType STORY_FILE_TYPE = new StoryFileType();
+    @NonNls
+    public static final String DEFAULT_EXTENSION = "story";
+    @NonNls
+    public static final String DOT_DEFAULT_EXTENSION = ".story";
+    public static final StoryFileType INSTANCE = new StoryFileType();
 
     protected StoryFileType() {
-        super(STORY_LANGUAGE);
+        super(StoryLanguage.INSTANCE);
     }
 
     @NotNull

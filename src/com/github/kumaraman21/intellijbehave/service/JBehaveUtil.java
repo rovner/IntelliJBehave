@@ -233,7 +233,7 @@ public class JBehaveUtil {
             public SearchScope compute() {
                 SearchScope originalScope = originalScopeComputation.compute();
                 if (originalScope instanceof GlobalSearchScope) {
-                    return GlobalSearchScope.getScopeRestrictedByFileTypes((GlobalSearchScope) originalScope, StoryFileType.STORY_FILE_TYPE);
+                    return GlobalSearchScope.getScopeRestrictedByFileTypes((GlobalSearchScope) originalScope, StoryFileType.INSTANCE);
                 } else {
                     return originalScope;
                 }

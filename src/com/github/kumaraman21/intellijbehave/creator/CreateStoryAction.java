@@ -15,6 +15,7 @@
  */
 package com.github.kumaraman21.intellijbehave.creator;
 
+import com.github.kumaraman21.intellijbehave.language.StoryFileType;
 import com.intellij.ide.IdeBundle;
 import com.intellij.ide.actions.CreateElementActionBase;
 import com.intellij.ide.fileTemplates.FileTemplate;
@@ -36,12 +37,10 @@ import com.intellij.psi.PsiFileFactory;
 import com.intellij.psi.codeStyle.CodeStyleManager;
 import org.jetbrains.annotations.NotNull;
 
-import static com.github.kumaraman21.intellijbehave.language.StoryFileType.STORY_FILE_TYPE;
-
 public class CreateStoryAction extends CreateElementActionBase {
 
   public CreateStoryAction() {
-    super("Create New Story File", STORY_FILE_TYPE.getDescription(), STORY_FILE_TYPE.getIcon());
+    super("Create New Story File", StoryFileType.INSTANCE.getDescription(), StoryFileType.INSTANCE.getIcon());
   }
 
   @NotNull
@@ -55,14 +54,14 @@ public class CreateStoryAction extends CreateElementActionBase {
   @NotNull
   @Override
   protected PsiElement[] create(String newName, PsiDirectory directory) throws Exception {
-    final FileTemplate template = FileTemplateManager.getInstance().getTemplate(STORY_FILE_TYPE.getName());
+    final FileTemplate template = FileTemplateManager.getDefaultInstance().getTemplate(StoryFileType.INSTANCE.getName());
 
     String fileName = getFileName(newName);
     Project project = directory.getProject();
 
     directory.checkCreateFile(fileName);
     PsiFile psiFile = PsiFileFactory.getInstance(project)
-      .createFileFromText(fileName, STORY_FILE_TYPE, template.getText());
+      .createFileFromText(fileName, StoryFileType.INSTANCE, template.getText());
 
     if (template.isReformatCode()) {
       CodeStyleManager.getInstance(project).reformat(psiFile);
@@ -87,7 +86,7 @@ public class CreateStoryAction extends CreateElementActionBase {
 
   @Override
   protected String getActionName(PsiDirectory directory, String newName) {
-    return IdeBundle.message("progress.creating.file", STORY_FILE_TYPE.getName(), newName, directory.getName());
+    return IdeBundle.message("progress.creating.file", StoryFileType.INSTANCE.getName(), newName, directory.getName());
   }
 
   public void update(final AnActionEvent e) {
@@ -102,10 +101,10 @@ public class CreateStoryAction extends CreateElementActionBase {
   }
 
   private String getFileName(String name) {
-      if (name.endsWith("." + STORY_FILE_TYPE.getDefaultExtension())) {
+      if (name.endsWith(StoryFileType.DOT_DEFAULT_EXTENSION)) {
           return name;
       } else {
-          return name + "." + STORY_FILE_TYPE.getDefaultExtension();
+          return name + StoryFileType.DOT_DEFAULT_EXTENSION;
       }
     }
 }

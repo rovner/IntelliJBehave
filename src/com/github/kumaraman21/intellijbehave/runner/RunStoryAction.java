@@ -100,7 +100,7 @@ public class RunStoryAction extends AnAction {
             runManager.addConfiguration(runnerAndConfigurationSettings, true);
         }
 
-        runManager.setActiveConfiguration(runnerAndConfigurationSettings);
+        runManager.setSelectedConfiguration(runnerAndConfigurationSettings);
 
         Executor executor = DefaultRunExecutor.getRunExecutorInstance();
         ProgramRunner runner = RunnerRegistry.getInstance().getRunner(executor.getId(), conf);

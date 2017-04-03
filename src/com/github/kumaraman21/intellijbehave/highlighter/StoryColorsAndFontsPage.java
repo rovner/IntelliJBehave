@@ -38,6 +38,8 @@ public class StoryColorsAndFontsPage implements ColorSettingsPage {
             new AttributesDescriptor("GivenStories text", StorySyntaxHighlighter.GIVEN_STORIES_TEXT),//
             new AttributesDescriptor("Scenario keyword", StorySyntaxHighlighter.SCENARIO_TYPE),//
             new AttributesDescriptor("Scenario text", StorySyntaxHighlighter.SCENARIO_TEXT),//
+            new AttributesDescriptor("Lifecycle keyword", StorySyntaxHighlighter.LIFECYCLE_TYPE),//
+            new AttributesDescriptor("Lifecycle outcome text", StorySyntaxHighlighter.LIFECYCLE_TEXT), //
             new AttributesDescriptor("Step keyword", StorySyntaxHighlighter.STEP_TYPE),//
             new AttributesDescriptor("Step text", StorySyntaxHighlighter.STEP_TEXT), //
             new AttributesDescriptor("Table delimiter", StorySyntaxHighlighter.TABLE_DELIM),
@@ -89,7 +91,20 @@ public class StoryColorsAndFontsPage implements ColorSettingsPage {
                 "|   Travis |   PacMan |\n" + //
                 "Given i am the user with nickname: \"Travis\"\n" + //
                 "When i try to login using the password \"McCallum\"\n" + //
-                "Then i get an error message of type \"Wrong Credentials\"";
+                "Then i get an error message of type \"Wrong Credentials\"\n" + //
+                "\n" + //
+                "Scenario: Using Lifecycle in a scenario\n" + //
+                "\n" + //
+                "Lifecycle:\n" + //
+                "Before:\n" + //
+                "Given a step that is executed before each scenario\n" + //
+                "After:\n" + //
+                "Outcome: ANY\n" + //
+                "Given a step that is executed after each scenario regardless of outcome\n" + //
+                "Outcome: SUCCESS\n" + //
+                "Given a step that is executed after each successful scenario\n" + //
+                "Outcome: FAILURE\n" + //
+                "Given a step that is executed after each failed scenario";
     }
 
     @Nullable
