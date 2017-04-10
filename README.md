@@ -21,6 +21,13 @@ Latest
 ------
 Latest changes in this plugin are to support IntelliJ IDEA 2016.1 and up.
 
+Update 2017/4/10:
+In reference to issue #2, added completion suggestions for Lifecycle keywords.
+Added Lifecycle keywords to the Colors & Fonts settings page, so one can set highlighting for these keywords.
+In a first attempt for issue #1, added basic support for completion of Given Stories;
+This first implementation searches for story files within the module path, including dependencies and libraries
+and return the list of found files as suggestions. It assumes story files are found within the 'resources' folder.
+
 Update 2017/3/24:
 Fixed issue #2, added recognition of Lifecycle keywords, no highlighting added yet.
 
@@ -28,7 +35,7 @@ Update 2017/3/20:
 Update localized lexer to handle GivenStories.
 Added GivenStories type and text to the highlighter and Colors & Fonts settings page for JBehave.
 Change highlighting of Meta keyword and tags.
-    
+
 Features
 --------
 The plugin provides the following features:

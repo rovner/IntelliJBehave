@@ -16,32 +16,42 @@
 <idea-plugin version="2" url="https://github.com/stefanschenk/IntelliJBehave">
     <name>JBehave Syntax Support</name>
     <id>jbehave-syntax-support</id>
-    <version>1.61-b</version>
+    <version>1.62</version>
     <vendor url="https://github.com/stefanschenk" email="swj@schenkweb.nl">Stefan Schenk</vendor>
     <description><![CDATA[
     <h1>IntelliJ IDEA Plugin for JBehave</h1>
+    <h3>This plugin provides some support for JBehave.</h3>
     <p>
-    This plugin provides some support for JBehave. <br/>
-    It is a fork of Jbehave Support, adapted and updated by Bert Van Vlerken and Victor Rosenberg.<br/>
-    See <a href="https://github.com/witspirit/IntelliJBehave">https://github.com/witspirit/IntelliJBehave</a><br/>
-    JBehaveSupport in turn is a fork of IntelliJBehave, originally created by Aman Kumar. <br/>
-    See <a href="https://github.com/kumaraman21/IntelliJBehave/wiki">https://github.com/kumaraman21/IntelliJBehave/wiki</a>
-    <br/>
+        <b>Highlights (v1.6 and up)</b>
+        <ul>
+            <li>Supports IntelliJ 2016.1 and up</li>
+            <li>Basic completion suggestions for Given Stories</li>
+            <li>Added support for Lifecycle keywords</li>
+            <li>Improved recognition of GivenStories type and text in a story</li>
+        </ul>
+    </p>
+    <p>
+        <b>Description</b><br/>
+        It is a fork of Jbehave Support, adapted and updated by Bert Van Vlerken and Victor Rosenberg.<br/>
+        See <a href="https://github.com/witspirit/IntelliJBehave">https://github.com/witspirit/IntelliJBehave</a><br/>
+        JBehaveSupport in turn is a fork of IntelliJBehave, originally created by Aman Kumar. <br/>
+        See <a href="https://github.com/kumaraman21/IntelliJBehave/wiki">https://github.com/kumaraman21/IntelliJBehave/wiki</a>
+        <br/>
 
-    JBehave Syntax Support will aim to support IntelliJ IDEA 2016.1 and up and try to improve on features<br/>
-    which come from using JBehave on a daily basis.
+        JBehave Syntax Support will aim to support IntelliJ IDEA 2016.1 and up and try to improve on features<br/>
+        which come from using JBehave on a daily basis.
 
-    Incorporated changes from fork <a href="https://github.com/hobbitProg/IntelliJBehave">https://github.com/hobbitProg/IntelliJBehave</a><br/>
-    to support Kotlin 1.0.4.
+        Incorporated changes from fork <a href="https://github.com/hobbitProg/IntelliJBehave">https://github.com/hobbitProg/IntelliJBehave</a><br/>
+        to support Kotlin 1.0.4.
 
-    JBehave Support had retained most of the original code, but had several improvements been incorporated by various contributors:
-    <ul>
-        <li><a href="https://github.com/jarosite">https://github.com/jarosite</a></li>
-        <li><a href="https://github.com/Arnauld">https://github.com/Arnauld</a></li>
-        <li><a href="https://github.com/harley84">https://github.com/harley84</a></li>
-        <li><a href="https://github.com/dmalch">https://github.com/dmalch</a></li>
-    </ul>
-    And <a href="https://github.com/witspirit/IntelliJBehave/graphs/contributors">others</a>.
+        JBehave Support had retained most of the original code, but had several improvements been incorporated by various contributors:
+        <ul>
+            <li><a href="https://github.com/jarosite">https://github.com/jarosite</a></li>
+            <li><a href="https://github.com/Arnauld">https://github.com/Arnauld</a></li>
+            <li><a href="https://github.com/harley84">https://github.com/harley84</a></li>
+            <li><a href="https://github.com/dmalch">https://github.com/dmalch</a></li>
+        </ul>
+        And <a href="https://github.com/witspirit/IntelliJBehave/graphs/contributors">others</a>.
     </p>
 
     <p>
@@ -74,6 +84,18 @@
     </ul>
 
     <h2>Release notes:</h2>
+    <p>
+        New in version 1.62:
+    </p>
+    <ul>
+        <li>In reference to issue #2, added completion suggestions for Lifecycle keywords.</li>
+        <li>Added Lifecycle keywords to the Colors & Fonts settings page, so one can set highlighting for these keywords.</li>
+        <li>
+            In a first attempt for issue #1, added basic support for completion of Given Stories;
+            This first implementation searches for story files within the module path, including dependencies and libraries
+            and return the list of found files as suggestions. It assumes story files are found within the 'resources' folder.
+        </li>
+    </ul>
     <p>
         New in version 1.61-b:
     </p>
@@ -168,6 +190,9 @@
         <localInspection id="undefinedStep" language="Story" displayName="Undefined step"
                          groupName="JBehave" enabledByDefault="true" level="WARNING"
                          implementationClass="com.github.kumaraman21.intellijbehave.codeInspector.UndefinedStepInspection"/>
+
+        <psi.referenceContributor
+                implementation="com.github.kumaraman21.intellijbehave.resolver.GivenStoryPsiReferenceContributor"/>
         <psi.referenceContributor
                 implementation="com.github.kumaraman21.intellijbehave.resolver.StepPsiReferenceContributor"/>
 

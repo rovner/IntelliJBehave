@@ -71,7 +71,13 @@ public class StoryParserDefinition implements ParserDefinition {
     @Override
     public PsiElement createElement(ASTNode node) {
         final IElementType type = node.getElementType();
-        if (type == StoryElementType.GIVEN_STEP) {
+        if (type == StoryElementType.GIVEN_STORIES) {
+            final IElementType childType = node.getFirstChildNode().getElementType();
+
+            if (childType == StoryTokenType.GIVEN_STORIES_TEXT) {
+                return new JBehaveGivenStory(node);
+            }
+        } else if (type == StoryElementType.GIVEN_STEP) {
             return new JBehaveStep(node, StepType.GIVEN);
         } else if (type == StoryElementType.WHEN_STEP) {
             return new JBehaveStep(node, StepType.WHEN);
