@@ -1,7 +1,10 @@
 package com.github.kumaraman21.intellijbehave.completion;
 
 import com.github.kumaraman21.intellijbehave.highlighter.StoryTokenType;
+import com.github.kumaraman21.intellijbehave.language.StoryFileType;
 import com.github.kumaraman21.intellijbehave.parser.JBehaveStep;
+import com.github.kumaraman21.intellijbehave.parser.JBehaveGivenStory;
+import com.github.kumaraman21.intellijbehave.resolver.GivenStoryPsiReference;
 import com.github.kumaraman21.intellijbehave.resolver.StepDefinitionAnnotation;
 import com.github.kumaraman21.intellijbehave.resolver.StepDefinitionIterator;
 import com.github.kumaraman21.intellijbehave.resolver.StepPsiReference;
@@ -12,13 +15,19 @@ import com.intellij.codeInsight.completion.*;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.lang.ASTNode;
+import com.intellij.openapi.module.Module;
+import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiAnnotation;
-import com.intellij.psi.PsiElement;
+import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.psi.*;
+import com.intellij.psi.search.*;
 import com.intellij.util.Consumer;
 import org.jbehave.core.i18n.LocalizedKeywords;
 import org.jbehave.core.steps.StepType;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Collection;
 
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
@@ -28,16 +37,20 @@ public class StoryCompletionContributor extends CompletionContributor {
     }
 
     @Override
-    public void fillCompletionVariants(CompletionParameters parameters, final CompletionResultSet _result) {
+    public void fillCompletionVariants(@NotNull CompletionParameters parameters, @NotNull final CompletionResultSet _result) {
         if (parameters.getCompletionType() == CompletionType.BASIC) {
             String prefix = CompletionUtil.findReferenceOrAlphanumericPrefix(parameters);
             CompletionResultSet result = _result.withPrefixMatcher(prefix);
 
             LocalizedKeywords keywords = lookupLocalizedKeywords(parameters);
-            Consumer<LookupElement> consumer = newConsumer(_result);
+            Consumer<LookupElement> consumer = newConsumer(result);
 
             addAllKeywords(result.getPrefixMatcher(), consumer, keywords);
             addAllSteps(parameters,
+                    result.getPrefixMatcher(),
+                    consumer,
+                    keywords);
+            addAllStories(parameters,
                     result.getPrefixMatcher(),
                     consumer,
                     keywords);
@@ -60,7 +73,7 @@ public class StoryCompletionContributor extends CompletionContributor {
         return new Consumer<LookupElement>() {
             @Override
             public void consume(LookupElement element) {
-                result.addElement(element);
+                 result.addElement(element);
             }
         };
     }
@@ -93,8 +106,73 @@ public class StoryCompletionContributor extends CompletionContributor {
     }
 
     private static void addIfMatches(Consumer<LookupElement> consumer, PrefixMatcher prefixMatchers, String input) {
+        addIfMatches(consumer, prefixMatchers, input, "");
+    }
+
+    private static void addIfMatches(Consumer<LookupElement> consumer, PrefixMatcher prefixMatchers, String input, String spacingBefore) {
         if (prefixMatchers.prefixMatches(input)) {
-            consumer.consume(LookupElementBuilder.create(input));
+            LookupElementBuilder lookup = LookupElementBuilder.create(input);
+            lookup = lookup.withInsertHandler(new InsertHandler<LookupElement>() {
+                @Override
+                public void handleInsert(InsertionContext context, LookupElement element) {
+                    context.getDocument().insertString(context.getStartOffset(), spacingBefore);
+                    context.getEditor().getCaretModel().moveToOffset(context.getTailOffset());
+                }
+            });
+
+            consumer.consume(lookup);
+        }
+    }
+
+    private static void addAllStories(CompletionParameters parameters,
+                                      PrefixMatcher prefixMatcher,
+                                      Consumer<LookupElement> consumer,
+                                      LocalizedKeywords keywords) {
+        JBehaveGivenStory givenStory = getGivenStoryPsiElement(parameters);
+        if (givenStory == null) {
+            return;
+        }
+
+        Module module = ModuleUtilCore.findModuleForPsiElement(givenStory);
+
+        /**
+         * Set searchscope
+         * If module is null, get project scope, otherwise get module with dependencies and libraries scope (including test)
+         */
+        GlobalSearchScope searchScope;
+        if (module != null) {
+            searchScope = module.getModuleWithDependenciesAndLibrariesScope(true);
+        } else {
+            searchScope = GlobalSearchScope.projectScope(givenStory.getProject());
+        }
+
+        /**
+         * Find all story files within defined searchScope
+         * For this iteration it will just find all stories, without looking at Meta tags or anything
+         * Spacing is added before the given story, placing the completion at the start position of
+         * the caret. Afterwards the caret is moved to the end of the line, so one can easily type
+         * a comma
+         */
+        Collection<VirtualFile> virtualFiles = FileTypeIndex.getFiles(StoryFileType.INSTANCE, searchScope);
+
+        for (VirtualFile virtualFile : virtualFiles) {
+            String path = virtualFile.getPath();
+            String url = virtualFile.getUrl();
+            String givenStoryPath;
+
+            if (url.startsWith("file://")) {
+                givenStoryPath = path.substring(path.indexOf("resources/") + "resources/".length());
+            } else if (url.startsWith("jar://")) {
+                givenStoryPath = path.substring(path.indexOf(".jar!/") + ".jar!/".length());
+            } else {
+                givenStoryPath = "";
+            }
+
+            String toMatch = prefixMatcher.getPrefix();
+            String toMatchWithoutLeadingSpaces = StringUtil.trimLeading(toMatch);
+            String spacingBefore = toMatch.substring(0, (toMatch.length()-toMatchWithoutLeadingSpaces.length()));
+
+            addIfMatches(consumer, prefixMatcher, givenStoryPath, spacingBefore);
         }
     }
 
@@ -129,6 +207,20 @@ public class StoryCompletionContributor extends CompletionContributor {
                 || input.startsWith(keywords.when())
                 || input.startsWith(keywords.then())
                 || input.startsWith(keywords.and());
+    }
+
+    private static JBehaveGivenStory getGivenStoryPsiElement(CompletionParameters parameters) {
+        PsiElement position = parameters.getPosition();
+        PsiElement positionParent = position.getParent();
+        if (positionParent instanceof JBehaveGivenStory) {
+            return (JBehaveGivenStory) positionParent;
+        } else if (position instanceof GivenStoryPsiReference) {
+            return ((GivenStoryPsiReference) position).getElement();
+        } else if (position instanceof JBehaveGivenStory) {
+            return (JBehaveGivenStory) position;
+        } else {
+            return null;
+        }
     }
 
     private static JBehaveStep getStepPsiElement(CompletionParameters parameters) {
