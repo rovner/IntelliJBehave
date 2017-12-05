@@ -43,6 +43,8 @@ public class JBehaveSettingsPanel {
     private JPanel contentPane;
     private JLabel storyRunnerLabel;
     private TextFieldWithBrowseButton storyRunnerField;
+    private JLabel argumentsLabel;
+    private JTextField argumentsField;
 
     private JBehaveSettings jBehaveSettings;
 
@@ -53,14 +55,17 @@ public class JBehaveSettingsPanel {
 
     public void apply() {
         jBehaveSettings.setStoryRunner(storyRunnerField.getText());
+        jBehaveSettings.setArguments(argumentsField.getText());
     }
 
     public void reset() {
         storyRunnerField.setText(jBehaveSettings.getStoryRunner());
+        argumentsField.setText(jBehaveSettings.getArguments());
     }
 
     public boolean isModified() {
-        return !storyRunnerField.getText().equals(jBehaveSettings.getStoryRunner());
+        return !storyRunnerField.getText().equals(jBehaveSettings.getStoryRunner())
+                || !argumentsField.getText().equals(jBehaveSettings.getArguments());
     }
 
     {

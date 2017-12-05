@@ -35,6 +35,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.JavaPsiFacade;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.search.GlobalSearchScope;
+import org.apache.commons.lang3.StringUtils;
 
 import static com.github.kumaraman21.intellijbehave.runner.StoryRunnerConfigurationType.JBEHAVE_STORY_RUNNER;
 import static com.intellij.openapi.ui.Messages.getErrorIcon;
@@ -48,6 +49,7 @@ public class RunStoryAction extends AnAction {
         JBehaveSettings component = application.getComponent(JBehaveSettings.class);
 
         String storyRunnerName = component.getStoryRunner();
+        String arguments = component.getArguments();
         if (isBlank(storyRunnerName)) {
             showMessageDialog("In order to run a story file you need to first set a main class in the JBehave settings.",
                     "No Main Class Found to Run the Story",
@@ -73,8 +75,7 @@ public class RunStoryAction extends AnAction {
             return;
         }
 
-        Module module = ProjectRootManager.getInstance(project).getFileIndex()
-                .getModuleForFile(storyRunnerClass.getContainingFile().getVirtualFile());
+        Module module = ProjectRootManager.getInstance(project).getFileIndex().getModuleForFile(file);
         if (module == null) {
             showMessageDialog("Could not find the module in which main class to run stories was defined.'" +
                             "/n Resetting the main class in the JBehave settings might fix this issue.",
@@ -90,13 +91,13 @@ public class RunStoryAction extends AnAction {
 
         if (runnerAndConfigurationSettings != null) {
             conf = (ApplicationConfiguration) runnerAndConfigurationSettings.getConfiguration();
-            updateConfiguration(storyRunnerName, file, module, conf);
+            updateConfiguration(storyRunnerName, arguments, file, module, conf);
         } else {
             StoryRunnerConfigurationType type = application.getComponent(StoryRunnerConfigurationType.class);
             runnerAndConfigurationSettings =
                     (RunnerAndConfigurationSettingsImpl) runManager.createRunConfiguration(JBEHAVE_STORY_RUNNER, type.getConfigurationFactories()[0]);
             conf = (ApplicationConfiguration) runnerAndConfigurationSettings.getConfiguration();
-            updateConfiguration(storyRunnerName, file, module, conf);
+            updateConfiguration(storyRunnerName, arguments, file, module, conf);
             runManager.addConfiguration(runnerAndConfigurationSettings, true);
         }
 
@@ -114,14 +115,17 @@ public class RunStoryAction extends AnAction {
     }
 
     private RunnerAndConfigurationSettingsImpl findConfigurationByName(String name, RunManagerImpl runManager) {
-        for (RunnerAndConfigurationSettings settings : runManager.getSortedConfigurations()) {
+        for (RunnerAndConfigurationSettings settings : runManager.getAllSettings()) {
             if (settings.getName().equals(name)) return (RunnerAndConfigurationSettingsImpl) settings;
         }
         return null;
     }
 
-    private void updateConfiguration(String mainClassName, VirtualFile file, Module module, ApplicationConfiguration conf) {
+    private void updateConfiguration(String mainClassName, String arguments,
+                                     VirtualFile file, Module module, ApplicationConfiguration conf) {
         conf.setMainClassName(mainClassName);
+        conf.setVMParameters(arguments);
+        conf.setWorkingDirectory(module.getModuleFile().getParent().getPath());
         conf.setProgramParameters(file.getPath());
         conf.setModule(module);
     }

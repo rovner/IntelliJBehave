@@ -16,7 +16,6 @@
 package com.github.kumaraman21.intellijbehave.resolver;
 
 import com.github.kumaraman21.intellijbehave.kotlin.KotlinConfigKt;
-import com.github.kumaraman21.intellijbehave.kotlin.support.services.KotlinPsiClassesLoader;
 import com.google.common.base.Objects;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ContentIterator;
@@ -53,9 +52,6 @@ public abstract class StepDefinitionIterator implements ContentIterator {
             // System.out.println("Virtual File that is a PsiClassOwner: "+virtualFile);
 
             List<PsiClass> psiClasses = null;
-            if (KotlinConfigKt.getPluginIsEnabled()) {
-                psiClasses = KotlinPsiClassesLoader.getInstance().getPsiClasses(psiFile);
-            }
 
             if (psiClasses == null) psiClasses = Arrays.asList(((PsiClassOwner) psiFile).getClasses());
 

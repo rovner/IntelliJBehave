@@ -1,7 +1,6 @@
 package com.github.kumaraman21.intellijbehave.service;
 
 import com.github.kumaraman21.intellijbehave.kotlin.KotlinConfigKt;
-import com.github.kumaraman21.intellijbehave.kotlin.support.services.KotlinAnnotationsLoader;
 import com.github.kumaraman21.intellijbehave.parser.JBehaveStep;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ServiceManager;
@@ -101,9 +100,7 @@ public class JBehaveStepsIndex {
                 Collection<PsiAnnotation> psiAnnotations = new ArrayList<PsiAnnotation>();
                 if (KotlinConfigKt.getPluginIsEnabled()) {
                     String qualifiedName = annClass.getQualifiedName();
-                    if (qualifiedName != null) {
-                        psiAnnotations.addAll(KotlinAnnotationsLoader.getInstance().getAnnotations(QualifiedName.fromDottedString(qualifiedName), project, scope));
-                    }
+
                 }
                 psiAnnotations.addAll(JavaAnnotationIndex.getInstance().get(annClass.getName(), project, scope));
                 return psiAnnotations;

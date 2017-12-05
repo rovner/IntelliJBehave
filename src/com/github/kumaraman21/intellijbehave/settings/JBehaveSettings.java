@@ -28,6 +28,7 @@ import org.jetbrains.annotations.NotNull;
 )
 public class JBehaveSettings implements ApplicationComponent, PersistentStateComponent<JBehaveSettings> {
     private String storyRunner;
+    private String arguments;
 
     public static JBehaveSettings getInstance() {
         return ServiceManager.getService(JBehaveSettings.class);
@@ -49,6 +50,14 @@ public class JBehaveSettings implements ApplicationComponent, PersistentStateCom
 
     public void setStoryRunner(String storyRunner) {
         this.storyRunner = storyRunner;
+    }
+
+    public String getArguments() {
+        return arguments;
+    }
+
+    public void setArguments(String arguments) {
+        this.arguments = arguments;
     }
 
     @Override
