@@ -1,5 +1,6 @@
 package com.github.kumaraman21.intellijbehave.run.configuration;
 
+import com.github.kumaraman21.intellijbehave.parser.StoryFile;
 import com.google.gson.Gson;
 import com.intellij.codeHighlighting.Pass;
 import com.intellij.codeInsight.daemon.GutterIconNavigationHandler;
@@ -23,21 +24,25 @@ import org.jetbrains.annotations.NotNull;
 import javax.swing.*;
 import java.util.Collection;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.github.kumaraman21.intellijbehave.highlighter.StoryTokenType.EXAMPLE_TYPE;
 import static com.github.kumaraman21.intellijbehave.highlighter.StoryTokenType.SCENARIO_TEXT;
+import static com.github.kumaraman21.intellijbehave.highlighter.StoryTokenType.SCENARIO_TYPE;
 import static com.intellij.icons.AllIcons.RunConfigurations.TestState.Run;
 import static com.intellij.icons.AllIcons.RunConfigurations.TestState.Run_run;
 import static com.intellij.openapi.editor.markup.GutterIconRenderer.Alignment.CENTER;
 import static com.intellij.psi.tree.TokenSet.WHITE_SPACE;
 import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.joining;
 
 public class JBehaveLineMarkerProvider extends RelatedItemLineMarkerProvider {
 
     private static final Icon DEBUG = ((IconLoader.CachedImageIcon) IconLoader.getIcon("/actions/startDebugger_dark.png")).scale(0.7f);
 
     protected void collectNavigationMarkers(@NotNull PsiElement element, @NotNull Collection<? super RelatedItemLineMarkerInfo> result) {
-        if (result.isEmpty()) {
+        if (element.getPrevSibling() == null && element.getParent() instanceof StoryFile) {
             String path = getPath(element);
             result.add(new JBehaveRelatedItemLineMarkerInfo(
                     element,
@@ -74,7 +79,7 @@ public class JBehaveLineMarkerProvider extends RelatedItemLineMarkerProvider {
                 ExamplesTable table = new ExamplesTable(tableNode.getPsi().getText());
                 ASTNode[] lineBrakeNodes = tableNode.getChildren(WHITE_SPACE);
 
-                for (int i = 0; i < lineBrakeNodes.length; i++) {
+                for (int i = 0; i < table.getRowCount(); i++) {
                     ASTNode node = lineBrakeNodes[i];
                     PsiElement el = node.getPsi().getNextSibling();
                     Map<String, String> row = table.getRow(i);
@@ -114,7 +119,10 @@ public class JBehaveLineMarkerProvider extends RelatedItemLineMarkerProvider {
                 }
             }
             RunnerAndConfigurationSettings runConfiguration = runManager.createRunConfiguration(sb.toString(), type.getConfigurationFactories()[0]);
-            ((JBehaveRunConfiguration) runConfiguration.getConfiguration()).setProgramParameters("\"" + String.join("\" \"", args) + "\"");
+            String parameters = Stream.of(args)
+                    .map(arg -> "\"" + arg.replaceAll("\"", "\\\\\"") + "\"")
+                    .collect(joining(" "));
+            ((JBehaveRunConfiguration) runConfiguration.getConfiguration()).setProgramParameters(parameters);
             ProgramRunnerUtil.executeConfiguration(runConfiguration, executor);
         };
     }
