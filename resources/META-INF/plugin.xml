@@ -198,5 +198,8 @@
 
         <projectService serviceInterface="com.github.kumaraman21.intellijbehave.service.JBehaveStepsIndex"
                         serviceImplementation="com.github.kumaraman21.intellijbehave.service.JBehaveStepsIndex"/>
+
+        <configurationType implementation="com.github.kumaraman21.intellijbehave.run.configuration.JBehaveConfigurationType" />
+        <codeInsight.lineMarkerProvider language="Story" implementationClass="com.github.kumaraman21.intellijbehave.run.configuration.JBehaveLineMarkerProvider"/>
     </extensions>
 </idea-plugin>
